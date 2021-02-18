@@ -38,6 +38,10 @@ def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- ")
+    print("3- ")
+    print("4- ")
+    print("5- ")
+    print("0- Salir")
 
 catalog = None
 
@@ -51,8 +55,13 @@ while True:
         print("Cargando información de los archivos ....")
 
     elif int(inputs[0]) == 2:
-        pass
-
+        print("")
+    elif int(inputs[0]) == 3:
+        print("")
+    elif int(inputs[0]) == 4:
+        print("")
+    elif int(inputs[0]) == 5:
+        print("")
     else:
         sys.exit(0)
 sys.exit(0)
