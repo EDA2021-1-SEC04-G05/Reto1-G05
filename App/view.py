@@ -34,6 +34,7 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
@@ -43,6 +44,19 @@ def printMenu():
     print("5- ")
     print("0- Salir")
 
+def initCatalog():
+    """
+    Inicializa el catalogo de libros
+    """
+    return controller.initCatalog()
+
+
+def loadData(catalog):
+    """
+    Carga los libros en la estructura de datos
+    """
+    controller.loadData(catalog)
+    
 catalog = None
 
 """
@@ -55,9 +69,8 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = initCatalog()
         loadData(catalog)
-        print('Videos cargados: ' + str(lt.size(catalog['vides'])))
-        print('Categorias cargadas: ' + str(lt.size(catalog['categories'])))
-
+        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
+        print('Categorias cargadas: ' + str(catalog['categories']))
     elif int(inputs[0]) == 2:
         print("")
     elif int(inputs[0]) == 3:

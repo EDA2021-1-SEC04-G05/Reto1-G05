@@ -23,6 +23,8 @@
 import config as cf
 import model
 import csv
+import controller
+
 
 
 """
@@ -45,9 +47,8 @@ def loadData(catalog):
     """
     loadVideos(catalog)
     loadCategories(catalog)
-    sortVideos(catalog)
 
-def loadBooks(catalog):
+def loadVideos(catalog):
     """
     Carga los videos del archivo.
     """
@@ -60,7 +61,7 @@ def loadCategories(catalog):
     """
     Carga todos los tags del archivo y los agrega a la lista de tags
     """
-    catfile = cf.data_dir + 'video/category-id.csv'
+    catfile = cf.data_dir + 'videos/category-id.csv'
     input_file = csv.DictReader(open(catfile, encoding='utf-8'))
     for category in input_file:
         model.addCat(catalog, category)
