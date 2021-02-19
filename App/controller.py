@@ -62,7 +62,7 @@ def loadCategories(catalog):
     Carga todos los tags del archivo y los agrega a la lista de tags
     """
     catfile = cf.data_dir + 'videos/category-id.csv'
-    input_file = csv.DictReader(open(catfile, encoding='utf-8'))
+    input_file = csv.DictReader(open(catfile, encoding='utf-8'),delimiter="\t")
     for category in input_file:
         model.addCat(catalog, category)
 # Funciones de ordenamiento
