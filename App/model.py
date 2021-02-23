@@ -27,8 +27,11 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import shellsort as ss
+from DISClib.Algorithms.Sorting import insertionsort as ins
+from DISClib.Algorithms.Sorting import selectionsort as sels
 assert cf
+import time
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -36,7 +39,7 @@ los mismos.
 """
 
 # Construccion de modelos
-def newCatalog():
+def newCatalog(ltype):
     """
     Inicializa el catálogo de libros. Crea una lista vacia para guardar
     todos los libros, adicionalmente, crea una lista vacia para los autores,
@@ -44,14 +47,18 @@ def newCatalog():
     generos y libros. Retorna el catalogo inicializado.
     """
     catalog = {'videos': None,
-               'country': None,
                'categories': None}
 
-    catalog['videos'] = lt.newList()
-    catalog['country'] = lt.newList('SINGLE_LINKED',
+    if ltype==2: 
+        print("2")
+        catalog['videos'] = lt.newList('SINGLE_LINKED',
                                     cmpfunction=None)
-    catalog['categories'] = lt.newList('SINGLE_LINKED',
+        catalog['categories'] = lt.newList('SINGLE_LINKED',
                                  cmpfunction=None)
+    elif ltype==1: 
+        print("1")
+        catalog['videos'] = lt.newList('ARRAY_LIST')
+        catalog['categories'] = lt.newList('ARRAY_LIST')
  
 
     return catalog
@@ -59,6 +66,7 @@ def newCatalog():
 def addVideo(catalog, video):
     # Se adiciona el video a la lista de videos
     lt.addLast(catalog['videos'], video)
+    
   
 def addCat(catalog, category):
     """
@@ -82,3 +90,21 @@ def newCat(name, id):
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+def compareViews (video1,video2):
+    return (float(video1['views']) < float(video2['views']))
+
+# Funciones de ordenamiento
+
+def sortVideos(catalog, size,tsort):
+    sub_list = lt.subList(catalog['videos'], 0, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+    if tsort==1:
+        sorted_list = ss.sort(sub_list, compareViews)
+    elif tsort==2:
+        sorted_list = ins.sort(sub_list, compareViews)
+    elif tsort==3:
+        sorted_list = sels.sort(sub_list, compareViews)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, #sorted_list

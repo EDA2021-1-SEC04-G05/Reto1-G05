@@ -38,17 +38,18 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- REQ. 1: Encontrar buenos videos por categoría y país")
     print("3- ")
     print("4- ")
     print("5- ")
+    print("6- Videos ordenados por views")
     print("0- Salir")
 
-def initCatalog():
+def initCatalog(ltype):
     """
     Inicializa el catalogo de libros
     """
-    return controller.initCatalog()
+    return controller.initCatalog(ltype)
 
 
 def loadData(catalog):
@@ -66,8 +67,9 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        listype=int(input(("Seleccione el tipo de lista para cargar los datos: \n 1- ARRAY_LIST \n 2-LINKED_LIST \n")))
         print("Cargando información de los archivos ....")
-        catalog = initCatalog()
+        catalog = initCatalog(listype)
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas: ' + str(catalog['categories']))
@@ -79,6 +81,12 @@ while True:
         print("")
     elif int(inputs[0]) == 5:
         print("")
+    elif int(inputs[0])==6:
+        size = input("Indique tamaño de la muestra: ")
+        stype= int(input (("Seleccione el tipo de sorting para cargar los datos: \n 1- Shellsort \n 2-Insertionsort \n 3-Selectionsort \n")))
+        result = controller.sortVideos(catalog, int(size),int(stype))
+        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
+                                          str(result))
     else:
         sys.exit(0)
 sys.exit(0)
