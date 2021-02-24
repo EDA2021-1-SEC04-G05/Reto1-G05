@@ -48,7 +48,6 @@ def newCatalog(ltype):
     """
     catalog = {'videos': None,
                'categories': None}
-
     if ltype==2: 
         print("2")
         catalog['videos'] = lt.newList('SINGLE_LINKED',
@@ -107,4 +106,4 @@ def sortVideos(catalog, size,tsort):
         sorted_list = sels.sort(sub_list, compareViews)
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
-    return elapsed_time_mseg, #sorted_list
+    return elapsed_time_mseg, sorted_list
