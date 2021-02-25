@@ -47,16 +47,18 @@ def newCatalog(ltype):
     generos y libros. Retorna el catalogo inicializado.
     """
     catalog = {'videos': None,
+                'countries':None,
                'categories': None}
     if ltype==2: 
-        print("2")
-        catalog['videos'] = lt.newList('SINGLE_LINKED',
-                                    cmpfunction=None)
+        print("Usted escogio: SINGLE_LINKED")
+        catalog['videos'] = lt.newList('SINGLE_LINKED',cmpfunction=None)#compareViews)
+        catalog['countries']=lt.newList('SINGLE_LINKED',compareCountries) 
         catalog['categories'] = lt.newList('SINGLE_LINKED',
                                  cmpfunction=None)
     elif ltype==1: 
-        print("1")
-        catalog['videos'] = lt.newList('ARRAY_LIST')
+        print("Usted escogio: ARRAY_LIST")
+        catalog['videos'] = lt.newList('ARRAY_LIST', compareViews)
+        catalog['countries']=lt.newList('ARRAY_LIST',compareCountries) 
         catalog['categories'] = lt.newList('ARRAY_LIST')
  
 
@@ -65,8 +67,34 @@ def newCatalog(ltype):
 def addVideo(catalog, video):
     # Se adiciona el video a la lista de videos
     lt.addLast(catalog['videos'], video)
+    countryname=video['country']
+    addVideoCountry(catalog,countryname, video)
+
+def addVideoCountry(catalog, countryname, video):
+    """
+    Adiciona un autor a lista de autores, la cual guarda referencias
+    a los libros de dicho autor
+    """
+    countries = catalog['countries']
+    pos = lt.isPresent(countries, countryname)
+    if pos > 0:
+        country = lt.getElement(countries, pos)
+    else:
+        country = newCountry(countryname)
+        lt.addLast(countries, country)
+    lt.addLast(country['videos'], video)    
     
   
+def newCountry(countryname):
+    """
+    Crea una nueva estructura para modelar los libros de
+    un autor y su promedio de ratings
+    """
+    country = {'name': "", "videos": None}
+    country['name'] = countryname
+    country['videos'] = lt.newList('ARRAY_LIST')
+    return country
+
 def addCat(catalog, category):
     """
     Adiciona una categoria a la lista de categorias
@@ -92,6 +120,10 @@ def newCat(name, id):
 def compareViews (video1,video2):
     return (float(video1['views']) < float(video2['views']))
 
+def compareCountries(countryname, country):
+    if (countryname.lower() in country['name'].lower()):
+        return 0
+    return -1
 # Funciones de ordenamiento
 
 def sortVideos(catalog, size,tsort):
