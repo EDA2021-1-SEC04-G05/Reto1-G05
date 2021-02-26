@@ -33,16 +33,17 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
-
+default_limit=1000
+sys.setrecursionlimit(default_limit*10)
 
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- REQ. 1: Encontrar buenos videos por categoría y país")
-    print("3- ")
+    print("2- Videos ordenados por views")
+    print("3- REQ. 1: Encontrar buenos videos por categoría y país")
     print("4- ")
     print("5- ")
-    print("6- Videos ordenados por views")
+    print("6- ")
     print("0- Salir")
 
 def initCatalog(ltype):
@@ -62,6 +63,8 @@ def printing(ordlist,sample=10):
         for i in range(0,10):
             video=lt.getElement(ordlist,i)
             print ("Titulo: {0} Views: {1} ".format(video['title'],video['views']) )
+
+
 catalog = None
 
 
@@ -79,23 +82,21 @@ while True:
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas: ' + str(catalog['categories']))
     elif int(inputs[0]) == 2:
-        print("")
+        
+        size =int( input("Indique tamaño de la muestra: "))
+        stype= int(input (("Seleccione el tipo de sorting para cargar los datos: \n 1- Shellsort \n 2-Insertionsort \n 3-Selectionsort \n 4-Quicksort \n 5-Mergesort \n")))
+        result = controller.sortVideos(catalog, int(size),int(stype))
+        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
+                                          str(result[0]))
+        printing(result[1],size)
     elif int(inputs[0]) == 3:
-        samplesize=[1000,2000,4000,8000,16000,32000,64000,128000,256000,512000]
-        sorttype=[1,2,3]
-        a=tiempos(sorttype, samplesize)
         print (a)
     elif int(inputs[0]) == 4:
         print("")
     elif int(inputs[0]) == 5:
         print("")
     elif int(inputs[0])==6:
-        size =int( input("Indique tamaño de la muestra: "))
-        stype= int(input (("Seleccione el tipo de sorting para cargar los datos: \n 1- Shellsort \n 2-Insertionsort \n 3-Selectionsort \n")))
-        result = controller.sortVideos(catalog, int(size),int(stype))
-        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
-                                          str(result[0]))
-        printing(result[1],size)
+        print("")
     else:
         sys.exit(0)
 sys.exit(0)

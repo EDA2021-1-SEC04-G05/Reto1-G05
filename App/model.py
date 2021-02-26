@@ -30,6 +30,8 @@ from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as ss
 from DISClib.Algorithms.Sorting import insertionsort as ins
 from DISClib.Algorithms.Sorting import selectionsort as sels
+from DISClib.Algorithms.Sorting import quicksort as qs
+from DISClib.Algorithms.Sorting import mergesort as ms
 assert cf
 import time
 
@@ -136,6 +138,10 @@ def sortVideos(catalog, size,tsort):
         sorted_list = ins.sort(sub_list, compareViews)
     elif tsort==3:
         sorted_list = sels.sort(sub_list, compareViews)
+    elif tsort==4:
+        sorted_list = qs.sort(sub_list, compareViews)
+    elif tsort==5:
+        sorted_list = ms.sort(sub_list, compareViews)
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
