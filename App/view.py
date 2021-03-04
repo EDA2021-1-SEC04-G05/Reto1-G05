@@ -48,7 +48,7 @@ def printMenu():
 
 def initCatalog(ltype):
     """
-    Inicializa el catalogo de libros
+    Inicializa el catalogo de Videos
     """
     return controller.initCatalog(ltype)
 
