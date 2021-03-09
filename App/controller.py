@@ -23,7 +23,6 @@
 import config as cf
 import model
 import csv
-import controller
 
 
 
@@ -62,7 +61,7 @@ def loadCategories(catalog):
     Carga todos los tags del archivo y los agrega a la lista de tags
     """
     catfile = cf.data_dir + 'videos/category-id.csv'
-    input_file = csv.DictReader(open(catfile, encoding='utf-8'),delimiter="\t")
+    input_file = csv.DictReader(open(catfile, encoding='utf-8'),delimiter="\t") 
     for category in input_file:
         model.addCat(catalog, category)
 # Funciones de ordenamiento
@@ -72,3 +71,11 @@ def sortVideos(catalog, size,stype):
     """
     return model.sortVideos(catalog, size,stype)
 # Funciones de consulta sobre el catálogo
+def getVideosbyCat(catalog,countryname,category):
+    """
+    Retrona los videos de un pais
+    """
+    videolist = model.getVideosbyCat(catalog, countryname, category)
+    return videolist
+def getTendencyTime(catalog,category):
+    Tendtime= model.getTendencyTime(catalog, category)

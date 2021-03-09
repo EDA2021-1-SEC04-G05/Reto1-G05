@@ -27,11 +27,8 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import shellsort as ss
-from DISClib.Algorithms.Sorting import insertionsort as ins
-from DISClib.Algorithms.Sorting import selectionsort as sels
 from DISClib.Algorithms.Sorting import quicksort as qs
-from DISClib.Algorithms.Sorting import mergesort as ms
+from DISClib.DataStructures import listiterator as lit
 assert cf
 import time
 
@@ -53,13 +50,12 @@ def newCatalog(ltype):
                'categories': None}
     if ltype==2: 
         print("Usted escogio: SINGLE_LINKED")
-        catalog['videos'] = lt.newList('SINGLE_LINKED',cmpfunction=None)#compareViews)
+        catalog['videos'] = lt.newList('SINGLE_LINKED')
         catalog['countries']=lt.newList('SINGLE_LINKED',compareCountries) 
-        catalog['categories'] = lt.newList('SINGLE_LINKED',
-                                 cmpfunction=None)
+        catalog['categories'] = lt.newList('SINGLE_LINKED')
     elif ltype==1: 
         print("Usted escogio: ARRAY_LIST")
-        catalog['videos'] = lt.newList('ARRAY_LIST', compareViews)
+        catalog['videos'] = lt.newList('ARRAY_LIST')
         catalog['countries']=lt.newList('ARRAY_LIST',compareCountries) 
         catalog['categories'] = lt.newList('ARRAY_LIST')
  
@@ -86,7 +82,6 @@ def addVideoCountry(catalog, countryname, video):
         lt.addLast(countries, country)
     lt.addLast(country['videos'], video)    
     
-  
 def newCountry(countryname):
     """
     Crea una nueva estructura para modelar los libros de
@@ -94,7 +89,7 @@ def newCountry(countryname):
     """
     country = {'name': "", "videos": None}
     country['name'] = countryname
-    country['videos'] = lt.newList('ARRAY_LIST')
+    country['videos'] = lt.newList('ARRAY_LIST',compareViews)
     return country
 
 def addCat(catalog, category):
@@ -103,45 +98,68 @@ def addCat(catalog, category):
     """
     lt.addLast(catalog['categories'], category)
     
- 
 
 # Funciones para creacion de datos
-def newCat(name, id):
-    """
-    Esta estructura almancena los tags utilizados para marcar libros.
-    """
-    cat = {'name': '', 'id': ''}
-    cat['name'] = name
-    cat['id'] = id
-    return cat
-
 
 # Funciones de consulta
 
+def getVideosByCountry(catalog, country):
+    """
+    Retorna un pais con sus videos a partir del nombre del pais
+    """
+    pos = lt.isPresent(catalog['countries'], country)
+    if pos > 0:
+        country1 = lt.getElement(catalog['countries'], pos)
+        return country1
+
+def getCat(catalog,category):
+    cat_id=0
+    b=lit.newIterator(catalog['categories'])
+    while lit.hasNext(b):
+        a=lit.next(b)
+        if a['name']==str(category):
+            cat_id=a['id ']
+            return cat_id
+    if cat_id == 0:
+        print("esta categoria no existe")
+        return cat_id
+
+def getVideosbyCat(catalog,countryname,category):
+    country=getVideosByCountry(catalog,countryname)
+    result=lt.newList('ARRAY_LIST',compareViews)
+    cat_id=getCat(catalog,category)
+    countrysize=lt.size(country['videos'])
+    if cat_id != 0:
+        for i in range (1,countrysize):
+            video=lt.getElement(country['videos'],i)
+            if video["category_id"]==cat_id: 
+                lt.addLast(result, video)
+    re=sortVideos(result)
+    return re
+
+def getTendencyTime(catalog,category):
+    cat=getCat(catalog,category)
+    lis= lt.newList('ARRAY_LIST',compareViews)
+    videos=catalog['videos']
+    for video in videos: 
+        if video["category_id"]==cat_id: 
+            lt.addLast(lis, video)
+        
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareViews (video1,video2):
-    return (float(video1['views']) < float(video2['views']))
+    return (float(video1['views']) > float(video2['views']))
 
 def compareCountries(countryname, country):
     if (countryname.lower() in country['name'].lower()):
         return 0
     return -1
+
 # Funciones de ordenamiento
 
-def sortVideos(catalog, size,tsort):
-    sub_list = lt.subList(catalog['videos'], 0, size)
-    sub_list = sub_list.copy()
+def sortVideos(catalog):
+    sub_list = catalog.copy()
     start_time = time.process_time()
-    if tsort==1:
-        sorted_list = ss.sort(sub_list, compareViews)
-    elif tsort==2:
-        sorted_list = ins.sort(sub_list, compareViews)
-    elif tsort==3:
-        sorted_list = sels.sort(sub_list, compareViews)
-    elif tsort==4:
-        sorted_list = qs.sort(sub_list, compareViews)
-    elif tsort==5:
-        sorted_list = ms.sort(sub_list, compareViews)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
-    return elapsed_time_mseg, sorted_list
+    sorted_list = qs.sort(sub_list, compareViews)
+    #stop_time = time.process_time()
+    #elapsed_time_mseg = (stop_time - start_time)*1000
+    return sorted_list
