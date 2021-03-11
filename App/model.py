@@ -139,7 +139,7 @@ def getCat(catalog,category):
         return cat_id
 
 def getVideosbyCat(catalog,countryname,category):
-    country=getVideosByCountry(catalog,countryname)
+    country=getVideosByCountry(catalog,countryname) #o(1)/o(n)
     result=lt.newList('ARRAY_LIST',compareViews)
     cat_id=getCat(catalog,category)
     countrysize=lt.size(country['videos'])
@@ -174,7 +174,6 @@ def getTendencyTime(catalog,category):
             dic['days']=1
             lt.addLast(x,dic)
             lt.addLast(l,e['title'])
-            
         else:
             dic=lt.getElement(x,r)
             dic['days']+=1
@@ -183,97 +182,74 @@ def getTendencyTime(catalog,category):
     return lt.getElement(dic_sort,1)
 
 def Req2 (catalog, country):
-    """
-    Se ordena la lista de videos con mergesort por pais
-    """
-    OrdenarPorPais= ms.sort (catalog ['videos'], compareVideosCountries)
-    
-    """
-    Se busca si la ciudad entrada por parametro se encuentra en la lista
-    """
-
-    inicio = 1
-    while country not in lt.getElement(OrdenarPorPais, inicio)['country'] :
-        inicio += 1
-    fin = inicio
-    while country == lt.getElement(OrdenarPorPais, fin)['country'] :
-        fin += 1
-        if fin > lt.size(OrdenarPorPais):
-            break
-    
-    """
-    Se ordena la lista de videos con mergesort por nombre
-    """
-    sub_list = lt.subList(OrdenarPorPais, inicio, fin-inicio)
-    OrdenarPorNombre = ms.sort (sub_list, compareVideosCountries)
-
-    """
-    Se crea un contador para saber cuantas veces el video aparece 
-    """
-    name = ""
-    max_index = 0
-    max_contador = 0
-    contador = 0
-    index = 0
-    i = 1
-
-    """
-    Se aumenta el contador para obtener las veces que el video esta en trending y se comparan los nombres
-    """
-
-    while i <= lt.size(OrdenarPorNombre):
-        if name.lower() == lt.getElement(OrdenarPorNombre, i)['title']:
-            contador += 1
+    country= getVideosByCountry(catalog, country)
+    result=lt.newList('ARRAY_LIST')
+    countrysize=lt.size(country['videos'])
+    for i in range (1,countrysize):
+        video=lt.getElement(country['videos'],i)
+        lt.addLast(result, video)
+    a=lit.newIterator(result)
+    l=lt.newList("ARRAY_LIST",compareName)
+    x=lt.newList("ARRAY_LIST")
+    while lit.hasNext(a):
+        e=lit.next(a)
+        dic={}
+        r= lt.isPresent(l,e['title'])
+        if r==0:
+            dic['title']=e['title']
+            dic['channel_title']=e['channel_title']
+            dic['country']=e['country']
+            dic['days']=1
+            lt.addLast(x,dic)
+            lt.addLast(l,e['title'])
         else:
-            name = lt.getElement(OrdenarPorNombre, i)['title']
-            index = i
-            contador = 1
-        if contador > max_contador:
-            max_index = index
-            max_contador = contador
-        i += 1
-    
-    """
-    Se retorna la pelicula con el contador 
-    """
+            dic=lt.getElement(x,r)
+            dic['days']+=1
+    dic_sort=sortDays(x)
+    #print(lt.getElement(dic_sort,1))
+    return lt.getElement(dic_sort,1)
 
-    return lt.getElement(OrdenarPorNombre, max_index), max_contador
+def getVideosByTag(catalog, tag):
+    pos = lt.isPresent(catalog['videos'], tag)
+    if pos > 0:
+        tag1 = lt.getElement(catalog['tag'], pos)
+        return tag1
 
-def Req4(catalog, country, numeroDeTop, tag):
+def Req4(catalog,country, tag):
+    videosCountry= getVideosByCountry(catalog, country)
+    lis= lt.newList('ARRAY_LIST')
+    for i in range (1,lt.size(videosCountry['videos'])):
+        video=lt.getElement(videosCountry['videos'],i)
+        if 
+        lt.addLast(lis,video)
 
-    OrdenarPorPais= ms.sort (catalog ['videos'], compareVideosCountries)
+    videosTags= getVideosByTag(lis,tag)
+    lista= lt.newList('ARRAY_LIST')
+    for i in range (1,lt.size(videosTags['videos'])):
+        video2=lt.getElement(videosTags['videos'],i)
+        lt.addLast(videosTags, videosTags)
 
-    inicio = 1
-    while country not in lt.getElement(OrdenarPorPais, inicio)['country'] :
-        inicio += 1
-    fin = inicio
-    while country == lt.getElement(OrdenarPorPais, fin)['country'] :
-        fin += 1
-        if fin > lt.size(OrdenarPorPais):
-            break
-    
-     
-    sub_list = lt.subList(OrdenarPorPais, inicio, fin-inicio)
-    OrdenarPorTag = ms.sort (sub_list, compareVideosCountries)
-
-    max_index = 0
-    max_contador = 0
-    contador = 0
-    index = 0
-    i = 1
-    listaDeVideos= lt.newList("ARRAY_LIST")
-    
-
-    while i <= int(numeroDeTop):
-        if tag == lt.getElement(OrdenarPorTag, i)['tags']:
-            listaDeVideos.addLast(lt.getElement((OrdenarPorTag, i)))
+    a=lit.newIterator(lista)
+    l=lt.newList("ARRAY_LIST",compareName)
+    x=lt.newList("ARRAY_LIST")
+    while lit.hasNext(a):
+        e=lit.next(a)
+        dic={}
+        r= lt.isPresent(l,e['title'])
+        if r==0:
+            dic['title']=e['title']
+            dic['channel_title']=e['channel_title']
+            dic['publish_time']=e['publish_time']
+            dic['views']=e['views']
+            dic['likes']=e['likes']
+            dic['dislikes']=e['dislikes']
+            dic['tags']=e['tags']
+            lt.addLast(x,dic)
+            lt.addLast(l,e['title'])
         else:
-            index = i
-        i += 1
-    
- 
-
-    return listaDeVideos
+            dic=lt.getElement(x,r)
+    #print(lt.getElement(dic_sort,1))
+    return x
 
     
 
@@ -318,7 +294,7 @@ def sortVideos(catalog):
     return sorted_list
 def sortDays(catalog):
     sub_list = catalog.copy()
-    sorted_list = qs.sort(sub_list, compareDays)
+    sorted_list = ms.sort(sub_list, compareDays)
     #stop_time = time.process_time()
     #elapsed_time_mseg = (stop_time - start_time)*1000
     return sorted_list

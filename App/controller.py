@@ -74,8 +74,8 @@ def sortVideos(catalog, size,stype):
 def Req2(catalog, country):
     return model.Req2(catalog, country)
 
-def Req4(catalog, country, numeroDeTop, tag):
-    return model.Req4(catalog, country, numeroDeTop, tag)
+def Req4(catalog, country, tag):
+    return model.Req4(catalog, country, tag)
     
 def getVideosbyCat(catalog,countryname,category):
     """

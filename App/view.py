@@ -60,17 +60,25 @@ def loadData(catalog):
     
 
 def printinga(ordlist,total): 
-        for i in range(0,total):
-            video=lt.getElement(ordlist,i)
-            print ("Titulo: {0}\nChannel_title:{1}\ntrending_date: {2}\nCountry: {3}\nViews: {4}\n Likes:{5}\n Dislikes:{6}\n ".format(video['title'],video['channel_title'],video['trending_date'],video['country'],video['views'],video['likes'],video['dislikes']))
+    for i in range(0,total):
+        video=lt.getElement(ordlist,i)
+        print ("Titulo: {0}\nChannel_title:{1}\ntrending_date: {2}\nCountry: {3}\nViews: {4}\n Likes:{5}\n Dislikes:{6}\n ".format(video['title'],video['channel_title'],video['trending_date'],video['country'],video['views'],video['likes'],video['dislikes']))
         
-def printing(ordlist,total): 
+def printing(ordlist,total,num): 
+
         for i in range(1,total+1):
             video=lt.getElement(ordlist,i)
-            print ("Titulo: {0}\ntrending_date: {1}\n Nombre del canal:{2}\n publish_time: {3}\n Views: {4}\n Likes:{5}\n Dislikes:{6}\n ".format(video['title'],video['trending_date'],video['channel_title'],video['publish_time'],video['views'],video['likes'],video['dislikes']) )
+            if num==2: 
+                print ("Title: {0}\nChannel_title:{1}\nPublish_Time:{2}\nViews: {3}\nLikes: {4}\nDislikes: {5}\nTags: {6}\n".format(video['title'],video['channel_title'],video['publish_time'],video['views'], video['likes'], video['dislikes'], video['tags']))
+            elif num==1:
+                print ("Titulo: {0}\ntrending_date: {1}\n Nombre del canal:{2}\n publish_time: {3}\n Views: {4}\n Likes:{5}\n Dislikes:{6}\n ".format(video['title'],video['trending_date'],video['channel_title'],video['publish_time'],video['views'],video['likes'],video['dislikes']) )
 
 
-catalog = None
+
+
+
+
+catalog = None 
 
 """
 Menu principal
@@ -94,13 +102,12 @@ while True:
         category=" " + (str(input("Ingrese la categoria de eleccion:")))
         number=int(input("Ingrese la cantidad de videos que quiere ver:"))
         result=controller.getVideosbyCat(catalog,country,category)
-        printing(result,number)
+        printing(result,number,1)
     elif int(inputs[0]) == 3:
         country = input ("Ingrese el país para el cual desea realizar la consulta: ")
-        [result, count] = controller.Req2(catalog, country)
-        video = result
-        print( "Titulo: "+ video['title'] + " | Canal: " + video['channel_title'] + " | Ciudad: " + video['country'] + " | Días: "+ str(count))
-        print("")
+        answer = controller.Req2(catalog, country)
+        a= "Title: {0}\nChannel_title:{1}\nCountry:{2}\nDays: {3} ".format(answer['title'],answer['channel_title'],answer['country'],answer['days'])
+        print(a)
     elif int(inputs[0]) == 4:
         category=" " + (str(input("Ingrese la categoria de eleccion:")))
         answer= controller.getTendencyTime(catalog,category)
@@ -109,14 +116,10 @@ while True:
         
     elif int(inputs[0])==5:
         country = input ("Ingrese el país para el cual desea realizar la consulta: ")
-        numeroDeTop = input ("Ingrese el numero de videos a enlistar: ")
-        tag = input ("Ingrese el tag de los videos: ")
-        result = controller.Req4(catalog, country, numeroDeTop, tag)
-        video1 = result
-        print(video1)
-        for i in range(0,int(numeroDeTop)):
-            video=lt.getElement(video1,i)
-            print("Titulo: "+ video['title'] + " | Canal: "+ video['channel_title'] + " | Dia de publicación: "+ video['views'] + " | Likes: "+ video['likes'] + " | Dislikes: "+ video['dislikes'] + " | Tags: "+ video['tags'])
+        tag=" " + (str(input("Ingrese el tag:")))
+        size =int( input("Indique tamaño de la lista: "))
+        answer= controller.Req4(catalog,country,tag)
+        printing(answer, size,2)
         
     else:
         sys.exit(0)
