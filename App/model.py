@@ -220,16 +220,12 @@ def Req4(catalog,country, tag):
     lis= lt.newList('ARRAY_LIST')
     for i in range (1,lt.size(videosCountry['videos'])):
         video=lt.getElement(videosCountry['videos'],i)
-        if 
-        lt.addLast(lis,video)
+        if tag in video['tags']:
+            lt.addLast(lis,video)
 
-    videosTags= getVideosByTag(lis,tag)
-    lista= lt.newList('ARRAY_LIST')
-    for i in range (1,lt.size(videosTags['videos'])):
-        video2=lt.getElement(videosTags['videos'],i)
-        lt.addLast(videosTags, videosTags)
 
-    a=lit.newIterator(lista)
+
+    a=lit.newIterator(lis)
     l=lt.newList("ARRAY_LIST",compareName)
     x=lt.newList("ARRAY_LIST")
     while lit.hasNext(a):
