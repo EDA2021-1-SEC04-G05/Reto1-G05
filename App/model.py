@@ -155,7 +155,6 @@ def getTendencyTime(catalog,category):
     cat=getCat(catalog,category)
     lis= lt.newList('ARRAY_LIST')
     b=lit.newIterator(catalog['videos'])
-    t=lt.newList('ARRAY_LIST')
     while lit.hasNext(b):
         video=lit.next(b)
         if video["category_id"]==cat: 
@@ -262,7 +261,7 @@ def Req4(catalog, country, numeroDeTop, tag):
     contador = 0
     index = 0
     i = 1
-    listaDeVideos= newList()
+    listaDeVideos= lt.newList("ARRAY_LIST")
     
 
     while i <= numeroDeTop:

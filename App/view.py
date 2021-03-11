@@ -42,7 +42,7 @@ def printMenu():
     print("2-REQ. 1: Encontrar buenos videos por categoría y país")
     print("3- REQ. 2: Encontrar video tendencia por país")
     print("4- REQ. 3: Video con más días como tendencia")
-    print("5- REQ. 4: Encontrar vidoes con mas likes")
+    print("5- REQ. 4: Encontrar videos con mas likes")
     print("0- Salir")
 
 def initCatalog(ltype):
@@ -107,7 +107,7 @@ while True:
         a="Title: {0}\nChannel_title:{1}\nCategory_id:{2}\nDays: {3} ".format(answer['title'],answer['channel_title'],answer['category_id'],answer['days'])
         print(a)
         
-    elif int(inputs[0])==6:
+    elif int(inputs[0])==5:
         country = input ("Ingrese el país para el cual desea realizar la consulta: ")
         numeroDeTop = input ("Ingrese el numero de videos a enlistar: ")
         tag = input ("Ingrese el tag de los videos: ")
