@@ -39,11 +39,10 @@ sys.setrecursionlimit(default_limit*10)
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2-  REQ. 1: Encontrar buenos videos por categoría y país")
-    print("3-)
-    print("4- REQ. 3: Video con más días como tendencia)
-    print("5- ")
-    print("6- ")
+    print("2-REQ. 1: Encontrar buenos videos por categoría y país")
+    print("3- REQ. 2: Encontrar video tendencia por país")
+    print("4- REQ. 3: Video con más días como tendencia")
+    print("5- REQ. 4: Encontrar vidoes con mas likes")
     print("0- Salir")
 
 def initCatalog(ltype):
@@ -97,6 +96,10 @@ while True:
         result=controller.getVideosbyCat(catalog,country,category)
         printing(result,number)
     elif int(inputs[0]) == 3:
+        country = input ("Ingrese el país para el cual desea realizar la consulta: ")
+        [result, count] = controller.Req2(catalog, country)
+        video = result
+        print( "Titulo: "+ video['title'] + " | Canal: " + video['channel_title'] + " | Ciudad: " + video['country'] + " | Días: "+ str(count))
         print("")
     elif int(inputs[0]) == 4:
         category=" " + (str(input("Ingrese la categoria de eleccion:")))
@@ -104,7 +107,13 @@ while True:
         a="Title: {0}\nChannel_title:{1}\nCategory_id:{2}\nDays: {3} ".format(answer['title'],answer['channel_title'],answer['category_id'],answer['days'])
         print(a)
         
-    elif int(inputs[0])==5:
+    elif int(inputs[0])==6:
+        country = input ("Ingrese el país para el cual desea realizar la consulta: ")
+        numeroDeTop = input ("Ingrese el numero de videos a enlistar: ")
+        tag = input ("Ingrese el tag de los videos: ")
+        [result] = controller.Req4(catalog, country, numeroDeTop, tag)
+        video = result 
+        print("Titulo: "+ video['title'] + " | Canal: "+ video['channel_title'] + " | Dia de publicación: "+ video['views'] + " | Likes: "+ video['likes'] + " | Dislikes: "+ video['dislikes'] + " | Tags: "+ video['tags'])
         print("")
     else:
         sys.exit(0)
