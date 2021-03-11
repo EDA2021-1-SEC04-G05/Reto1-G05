@@ -77,3 +77,12 @@ def Req2(catalog, country):
 def Req4(catalog, country, numeroDeTop, tag)
     return model.Req4(catalog, country, numeroDeTop, tag)
     """
+def getVideosbyCat(catalog,countryname,category):
+    """
+    Retrona los videos de un pais
+    """
+    videolist = model.getVideosbyCat(catalog, countryname, category)
+    return videolist
+def getTendencyTime(catalog,category):
+    Tendtime= model.getTendencyTime(catalog, category)
+    return Tendtime

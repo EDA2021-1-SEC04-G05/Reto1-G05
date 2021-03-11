@@ -34,6 +34,7 @@ from DISClib.Algorithms.Sorting import quicksort as qs
 from DISClib.Algorithms.Sorting import mergesort as ms
 assert cf
 import time
+import datetime
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -118,6 +119,77 @@ def newCat(name, id):
 
 # Funciones de consulta
 
+def getVideosByCountry(catalog, country):
+    """
+    Retorna un pais con sus videos a partir del nombre del pais
+    """
+    pos = lt.isPresent(catalog['countries'], country)
+    if pos > 0:
+        country1 = lt.getElement(catalog['countries'], pos)
+        return country1
+
+def getCat(catalog,category):
+    cat_id=0
+    b=lit.newIterator(catalog['categories'])
+    while lit.hasNext(b):
+        a=lit.next(b)
+        if a['name']==str(category):
+            cat_id=a['id ']
+            return cat_id
+    if cat_id == 0:
+        print("esta categoria no existe")
+        return cat_id
+
+def getVideosbyCat(catalog,countryname,category):
+    country=getVideosByCountry(catalog,countryname)
+    result=lt.newList('ARRAY_LIST',compareViews)
+    cat_id=getCat(catalog,category)
+    countrysize=lt.size(country['videos'])
+    if cat_id != 0:
+        for i in range (1,countrysize):
+            video=lt.getElement(country['videos'],i)
+            if video["category_id"]==cat_id: 
+                lt.addLast(result, video)
+    re=sortVideos(result)
+    return re
+
+def getTendencyTime(catalog,category):
+    cat=getCat(catalog,category)
+    lis= lt.newList('ARRAY_LIST')
+    b=lit.newIterator(catalog['videos'])
+    t=lt.newList('ARRAY_LIST')
+    while lit.hasNext(b):
+        video=lit.next(b)
+        if video["category_id"]==cat: 
+            lt.addLast(lis, video)
+            
+    a=lit.newIterator(lis)
+    l=lt.newList("ARRAY_LIST",compareName)
+    x=lt.newList("ARRAY_LIST")
+    while lit.hasNext(a):
+        e=lit.next(a)
+        dic={}
+        r =lt.isPresent(l,e['title'])
+        if r == 0: 
+            dic['title']=e['title']
+            dic['channel_title']=e['channel_title']
+            dic['category_id']=e['category_id']
+            dic['days']=1
+            lt.addLast(x,dic)
+            lt.addLast(l,e['title'])
+            
+        else:
+            dic=lt.getElement(x,r)
+            dic['days']+=1
+    dic_sort=sortDays(x)
+    #print(lt.getElement(dic_sort,1))
+    return lt.getElement(dic_sort,1)
+    
+
+    
+
+
+    
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareViews (video1,video2):
     return (float(video1['views']) < float(video2['views']))
@@ -136,6 +208,15 @@ def compareNames(video1, video2):
     if (video1['title'].lower() > video2['title'].lower()):
         return True
     return False
+def compareName(video1,video2):
+    if ((video1) == (video2)): 
+        return 0
+    elif ((video1) > (video2)): 
+        return 1
+    else: 
+        return -1
+def compareDays (video1,video2):
+    return (float(video1['days']) > float(video2['days']))
 # Funciones de ordenamiento
 
 def sortVideos(catalog, size,tsort):
@@ -251,3 +332,15 @@ def Req4(catalog, country, numeroDeTop, tag):
 
     return [listaDeVideos]
     """
+def sortVideos(catalog):
+    sub_list = catalog.copy()
+    sorted_list = qs.sort(sub_list, compareViews)
+    #stop_time = time.process_time()
+    #elapsed_time_mseg = (stop_time - start_time)*1000
+    return sorted_list
+def sortDays(catalog):
+    sub_list = catalog.copy()
+    sorted_list = ms.sort(sub_list, compareDays)
+    #stop_time = time.process_time()
+    #elapsed_time_mseg = (stop_time - start_time)*1000
+    return sorted_list
