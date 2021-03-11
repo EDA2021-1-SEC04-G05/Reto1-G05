@@ -42,13 +42,13 @@ def printMenu():
     print("2- Videos ordenados por views")
     print("3- REQ. 1: Encontrar buenos videos por categoría y país")
     print("4- REQ. 2: Encontrar video tendencia por país")
-    print("5- ")
+    print("5- REQ. 3: Video con más días como tendencia")
     print("6- REQ. 4: Encontrar vidoes con mas likes")
     print("0- Salir")
 
 def initCatalog(ltype):
     """
-    Inicializa el catalogo de libros
+    Inicializa el catalogo de Videos
     """
     return controller.initCatalog(ltype)
 
@@ -59,11 +59,15 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
     
-def printing(ordlist,sample=10): 
+def printing1(ordlist,sample=10): 
         for i in range(0,10):
             video=lt.getElement(ordlist,i)
             print ("Titulo: {0} Views: {1} ".format(video['title'],video['views']) )
-
+def printing(ordlist,total): 
+        for i in range(1,total+1):
+            video=lt.getElement(ordlist,i)
+            print ("Titulo: {0} trending_date: {1} Nombre del canal):{2} publish_time: {3} Views: {4} Likes:{5} Dislikes:{6} ".format(video['title'],video['trending_date'],video['channel_title'],video['publish_time'],video['views'],video['likes'],video['dislikes']) )
+            
 
 catalog = None
 
@@ -82,7 +86,6 @@ while True:
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas: ' + str(catalog['categories']))
     elif int(inputs[0]) == 2:
-        
         size =int( input("Indique tamaño de la muestra: "))
         stype= int(input (("Seleccione el tipo de sorting para cargar los datos: \n 1- Shellsort \n 2-Insertionsort \n 3-Selectionsort \n 4-Quicksort \n 5-Mergesort \n")))
         result = controller.sortVideos(catalog, int(size),int(stype))
@@ -90,7 +93,11 @@ while True:
                                           str(result[0]))
         printing(result[1],size)
     elif int(inputs[0]) == 3:
-        print (a)
+        country=str(input("Ingrese el Pais de su eleccion:"))
+        category=" " + (str(input("Ingrese la categoria de eleccion:")))
+        number=int(input("Ingrese la cantidad de videos que quiere ver:"))
+        result=controller.getVideosbyCat(catalog,country,category)
+        printing(result,number)
     elif int(inputs[0]) == 4:
         country = input ("Ingrese el país para el cual desea realizar la consulta: ")
         [result, count] = controller.Req2(catalog, country)
@@ -99,6 +106,7 @@ while True:
         print("")
     elif int(inputs[0]) == 5:
         print("")
+        
     elif int(inputs[0])==6:
         country = input ("Ingrese el país para el cual desea realizar la consulta: ")
         numeroDeTop = input ("Ingrese el numero de videos a enlistar: ")

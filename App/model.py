@@ -192,7 +192,7 @@ def Req2 (catalog, country):
     i = 1
 
     """
-    Se aumenta el contador para obtener las veces que el video esta en trending
+    Se aumenta el contador para obtener las veces que el video esta en trending y se comparan los nombres
     """
 
     while i <= lt.size(OrdenarPorNombre):
@@ -212,7 +212,7 @@ def Req2 (catalog, country):
     """
 
     return [lt.getElement(OrdenarPorNombre, max_index), max_contador]
-        
+ """       
 def Req4(catalog, country, numeroDeTop, tag):
 
     OrdenarPorPais= ms.sort (catalog ['videos'], compareVideosCountries)
@@ -225,3 +225,29 @@ def Req4(catalog, country, numeroDeTop, tag):
         fin += 1
         if fin > lt.size(OrdenarPorPais):
             break
+    
+     
+    sub_list = lt.subList(OrdenarPorPais, inicio, fin-inicio)
+    OrdenarPorTag = ms.sort (sub_list, compareVideosCountries)
+
+    
+    
+    max_index = 0
+    max_contador = 0
+    contador = 0
+    index = 0
+    i = 1
+    listaDeVideos= newList()
+    
+
+    while i <= numeroDeTop:
+        if tag == lt.getElement(OrdenarPorNombre, i)['tag']:
+            listaDeVideos.addLast(lt.getElement((OrdenarPorNombre, i)))
+        else:
+            index = i
+        i += 1
+    
+ 
+
+    return [listaDeVideos]
+    """
