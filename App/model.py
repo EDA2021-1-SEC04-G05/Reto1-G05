@@ -27,6 +27,7 @@
 
 import config as cf
 from DISClib.ADT import list as lt
+from DISClib.Algorithms.Sorting import quickesort as qs
 from DISClib.Algorithms.Sorting import mergesort as ms
 from DISClib.DataStructures import listiterator as lit
 assert cf
@@ -203,7 +204,7 @@ def sortVideos(catalog):
     return sorted_list
 def sortDays(catalog):
     sub_list = catalog.copy()
-    sorted_list = ms.sort(sub_list, compareDays)
+    sorted_list = qs.sort(sub_list, compareDays)
     #stop_time = time.process_time()
     #elapsed_time_mseg = (stop_time - start_time)*1000
     return sorted_list

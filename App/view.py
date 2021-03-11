@@ -39,10 +39,10 @@ sys.setrecursionlimit(default_limit*10)
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Videos ordenados por views")
-    print("3- REQ. 1: Encontrar buenos videos por categoría y país")
-    print("4- ")
-    print("5- REQ. 3: Video con más días como tendencia")
+    print("2-  REQ. 1: Encontrar buenos videos por categoría y país")
+    print("3-)
+    print("4- REQ. 3: Video con más días como tendencia)
+    print("5- ")
     print("6- ")
     print("0- Salir")
 
@@ -89,28 +89,22 @@ while True:
         printinga(catalog['videos'],1)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas: ' + str(catalog['categories']))
+
     elif int(inputs[0]) == 2:
-        size =int( input("Indique tamaño de la muestra: "))
-        stype= int(input (("Seleccione el tipo de sorting para cargar los datos: \n 1- Shellsort \n 2-Insertionsort \n 3-Selectionsort \n 4-Quicksort \n 5-Mergesort \n")))
-        result = controller.sortVideos(catalog, int(size),int(stype))
-        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
-                                          str(result[0]))
-        printing(result[1],size)
-    elif int(inputs[0]) == 3:
         country=str(input("Ingrese el Pais de su eleccion:"))
         category=" " + (str(input("Ingrese la categoria de eleccion:")))
         number=int(input("Ingrese la cantidad de videos que quiere ver:"))
         result=controller.getVideosbyCat(catalog,country,category)
         printing(result,number)
-    elif int(inputs[0]) == 4:
+    elif int(inputs[0]) == 3:
         print("")
-    elif int(inputs[0]) == 5:
+    elif int(inputs[0]) == 4:
         category=" " + (str(input("Ingrese la categoria de eleccion:")))
         answer= controller.getTendencyTime(catalog,category)
         a="Title: {0}\nChannel_title:{1}\nCategory_id:{2}\nDays: {3} ".format(answer['title'],answer['channel_title'],answer['category_id'],answer['days'])
         print(a)
         
-    elif int(inputs[0])==6:
+    elif int(inputs[0])==5:
         print("")
     else:
         sys.exit(0)
