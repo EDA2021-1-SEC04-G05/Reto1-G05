@@ -27,10 +27,11 @@
 
 import config as cf
 from DISClib.ADT import list as lt
-from DISClib.Algorithms.Sorting import quicksort as qs
+from DISClib.Algorithms.Sorting import mergesort as ms
 from DISClib.DataStructures import listiterator as lit
 assert cf
 import time
+import datetime
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -139,12 +140,41 @@ def getVideosbyCat(catalog,countryname,category):
 
 def getTendencyTime(catalog,category):
     cat=getCat(catalog,category)
-    lis= lt.newList('ARRAY_LIST',compareViews)
-    videos=catalog['videos']
-    for video in videos: 
-        if video["category_id"]==cat_id: 
+    lis= lt.newList('ARRAY_LIST')
+    b=lit.newIterator(catalog['videos'])
+    t=lt.newList('ARRAY_LIST')
+    while lit.hasNext(b):
+        video=lit.next(b)
+        if video["category_id"]==cat: 
             lt.addLast(lis, video)
-        
+            
+    a=lit.newIterator(lis)
+    l=lt.newList("ARRAY_LIST",compareName)
+    x=lt.newList("ARRAY_LIST")
+    while lit.hasNext(a):
+        e=lit.next(a)
+        dic={}
+        r =lt.isPresent(l,e['title'])
+        if r == 0: 
+            dic['title']=e['title']
+            dic['channel_title']=e['channel_title']
+            dic['category_id']=e['category_id']
+            dic['days']=1
+            lt.addLast(x,dic)
+            lt.addLast(l,e['title'])
+            
+        else:
+            dic=lt.getElement(x,r)
+            dic['days']+=1
+    dic_sort=sortDays(x)
+    #print(lt.getElement(dic_sort,1))
+    return lt.getElement(dic_sort,1)
+    
+
+    
+
+
+    
 # Funciones utilizadas para comparar elementos dentro de una lista
 def compareViews (video1,video2):
     return (float(video1['views']) > float(video2['views']))
@@ -153,13 +183,27 @@ def compareCountries(countryname, country):
     if (countryname.lower() in country['name'].lower()):
         return 0
     return -1
-
+def compareName(video1,video2):
+    if ((video1) == (video2)): 
+        return 0
+    elif ((video1) > (video2)): 
+        return 1
+    else: 
+        return -1
+def compareDays (video1,video2):
+    return (float(video1['days']) > float(video2['days']))
 # Funciones de ordenamiento
 
 def sortVideos(catalog):
     sub_list = catalog.copy()
     start_time = time.process_time()
     sorted_list = qs.sort(sub_list, compareViews)
+    #stop_time = time.process_time()
+    #elapsed_time_mseg = (stop_time - start_time)*1000
+    return sorted_list
+def sortDays(catalog):
+    sub_list = catalog.copy()
+    sorted_list = ms.sort(sub_list, compareDays)
     #stop_time = time.process_time()
     #elapsed_time_mseg = (stop_time - start_time)*1000
     return sorted_list

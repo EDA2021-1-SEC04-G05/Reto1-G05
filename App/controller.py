@@ -79,3 +79,4 @@ def getVideosbyCat(catalog,countryname,category):
     return videolist
 def getTendencyTime(catalog,category):
     Tendtime= model.getTendencyTime(catalog, category)
+    return Tendtime

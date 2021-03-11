@@ -59,18 +59,19 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
     
-def printing1(ordlist,sample=10): 
-        for i in range(0,10):
+
+def printinga(ordlist,total): 
+        for i in range(0,total):
             video=lt.getElement(ordlist,i)
-            print ("Titulo: {0} Views: {1} ".format(video['title'],video['views']) )
+            print ("Titulo: {0}\nChannel_title:{1}\ntrending_date: {2}\nCountry: {3}\nViews: {4}\n Likes:{5}\n Dislikes:{6}\n ".format(video['title'],video['channel_title'],video['trending_date'],video['country'],video['views'],video['likes'],video['dislikes']))
+        
 def printing(ordlist,total): 
         for i in range(1,total+1):
             video=lt.getElement(ordlist,i)
-            print ("Titulo: {0} trending_date: {1} Nombre del canal):{2} publish_time: {3} Views: {4} Likes:{5} Dislikes:{6} ".format(video['title'],video['trending_date'],video['channel_title'],video['publish_time'],video['views'],video['likes'],video['dislikes']) )
-            
+            print ("Titulo: {0}\ntrending_date: {1}\n Nombre del canal:{2}\n publish_time: {3}\n Views: {4}\n Likes:{5}\n Dislikes:{6}\n ".format(video['title'],video['trending_date'],video['channel_title'],video['publish_time'],video['views'],video['likes'],video['dislikes']) )
+
 
 catalog = None
-
 
 """
 Menu principal
@@ -83,6 +84,9 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = initCatalog(listype)
         loadData(catalog)
+       
+        print(' El primer video cargado es:')
+        printinga(catalog['videos'],1)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas: ' + str(catalog['categories']))
     elif int(inputs[0]) == 2:
@@ -102,6 +106,9 @@ while True:
         print("")
     elif int(inputs[0]) == 5:
         category=" " + (str(input("Ingrese la categoria de eleccion:")))
+        answer= controller.getTendencyTime(catalog,category)
+        a="Title: {0}\nChannel_title:{1}\nCategory_id:{2}\nDays: {3} ".format(answer['title'],answer['channel_title'],answer['category_id'],answer['days'])
+        print(a)
         
     elif int(inputs[0])==6:
         print("")
