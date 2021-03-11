@@ -126,6 +126,16 @@ def compareCountries(countryname, country):
     if (countryname.lower() in country['name'].lower()):
         return 0
     return -1
+
+def compareVideosCountries(video1, video2):
+    if video1['country'].lower() > video2['country'].lower():
+        return True
+    return False 
+
+def compareNames(video1, video2):
+    if (video1['title'].lower() > video2['title'].lower()):
+        return True
+    return False
 # Funciones de ordenamiento
 
 def sortVideos(catalog, size,tsort):
@@ -145,3 +155,73 @@ def sortVideos(catalog, size,tsort):
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
+
+def Req2 (catalog, country):
+    """
+    Se ordena la lista de videos con mergesort por pais
+    """
+    OrdenarPorPais= ms.sort (catalog ['videos'], compareVideosCountries)
+    
+    """
+    Se busca si la ciudad entrada por parametro se encuentra en la lista
+    """
+
+    inicio = 1
+    while country not in lt.getElement(OrdenarPorPais, inicio)['country'] :
+        inicio += 1
+    fin = inicio
+    while country == lt.getElement(OrdenarPorPais, fin)['country'] :
+        fin += 1
+        if fin > lt.size(OrdenarPorPais):
+            break
+    
+    """
+    Se ordena la lista de videos con mergesort por nombre
+    """
+    sub_list = lt.subList(OrdenarPorPais, inicio, fin-inicio)
+    OrdenarPorNombre = ms.sort (sub_list, compareVideosCountries)
+
+    """
+    Se crea un contador para saber cuantas veces el video aparece 
+    """
+    name = ""
+    max_index = 0
+    max_contador = 0
+    contador = 0
+    index = 0
+    i = 1
+
+    """
+    Se aumenta el contador para obtener las veces que el video esta en trending
+    """
+
+    while i <= lt.size(OrdenarPorNombre):
+        if name.lower() == lt.getElement(OrdenarPorNombre, i)['title']:
+            contador += 1
+        else:
+            name = lt.getElement(OrdenarPorNombre, i)['title']
+            index = i
+            contador = 1
+        if contador > max_contador:
+            max_index = index
+            max_contador = contador
+        i += 1
+    
+    """
+    Se retorna la pelicula con el contador 
+    """
+
+    return [lt.getElement(OrdenarPorNombre, max_index), max_contador]
+        
+def Req4(catalog, country, numeroDeTop, tag):
+
+    OrdenarPorPais= ms.sort (catalog ['videos'], compareVideosCountries)
+
+    inicio = 1
+    while country not in lt.getElement(OrdenarPorPais, inicio)['country'] :
+        inicio += 1
+    fin = inicio
+    while country == lt.getElement(OrdenarPorPais, fin)['country'] :
+        fin += 1
+        if fin > lt.size(OrdenarPorPais):
+            break

@@ -72,3 +72,5 @@ def sortVideos(catalog, size,stype):
     """
     return model.sortVideos(catalog, size,stype)
 # Funciones de consulta sobre el catálogo
+def Req2(catalog, country):
+    return model.Req2(catalog, country)

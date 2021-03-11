@@ -41,9 +41,9 @@ def printMenu():
     print("1- Cargar información en el catálogo")
     print("2- Videos ordenados por views")
     print("3- REQ. 1: Encontrar buenos videos por categoría y país")
-    print("4- ")
+    print("4- REQ. 2: Encontrar video tendencia por país")
     print("5- ")
-    print("6- ")
+    print("6- REQ. 4: Encontrar vidoes con mas likes")
     print("0- Salir")
 
 def initCatalog(ltype):
@@ -92,10 +92,20 @@ while True:
     elif int(inputs[0]) == 3:
         print (a)
     elif int(inputs[0]) == 4:
+        country = input ("Ingrese el país para el cual desea realizar la consulta: ")
+        [result, count] = controller.Req2(catalog, country)
+        video = result
+        print( "Titulo: "+ video['title'] + " | Canal: " + video['channel_title'] + " | Ciudad: " + video['country'] + " | Días: "+ str(count))
         print("")
     elif int(inputs[0]) == 5:
         print("")
     elif int(inputs[0])==6:
+        country = input ("Ingrese el país para el cual desea realizar la consulta: ")
+        numeroDeTop = input ("Ingrese el numero de videos a enlistar: ")
+        tag = input ("Ingrese el tag de los videos: ")
+        [result] = controller.Req4(catalog, country, numeroDeTop, tag)
+        video = result 
+        print("Titulo: "+ video['title'] + " | Canal: "+ video['channel_title'] + " | Dia de publicación: "+ video['views'] + " | Likes: "+ video['likes'] + " | Dislikes: "+ video['dislikes'] + " | Tags: "+ video['tags'])
         print("")
     else:
         sys.exit(0)
