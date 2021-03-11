@@ -39,7 +39,7 @@ sys.setrecursionlimit(default_limit*10)
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2-REQ. 1: Encontrar buenos videos por categoría y país")
+    print("2- REQ. 1: Encontrar buenos videos por categoría y país")
     print("3- REQ. 2: Encontrar video tendencia por país")
     print("4- REQ. 3: Video con más días como tendencia")
     print("5- REQ. 4: Encontrar videos con mas likes")
@@ -111,10 +111,13 @@ while True:
         country = input ("Ingrese el país para el cual desea realizar la consulta: ")
         numeroDeTop = input ("Ingrese el numero de videos a enlistar: ")
         tag = input ("Ingrese el tag de los videos: ")
-        [result] = controller.Req4(catalog, country, numeroDeTop, tag)
-        video = result 
-        print("Titulo: "+ video['title'] + " | Canal: "+ video['channel_title'] + " | Dia de publicación: "+ video['views'] + " | Likes: "+ video['likes'] + " | Dislikes: "+ video['dislikes'] + " | Tags: "+ video['tags'])
-        print("")
+        result = controller.Req4(catalog, country, numeroDeTop, tag)
+        video1 = result
+        print(video1)
+        for i in range(0,int(numeroDeTop)):
+            video=lt.getElement(video1,i)
+            print("Titulo: "+ video['title'] + " | Canal: "+ video['channel_title'] + " | Dia de publicación: "+ video['views'] + " | Likes: "+ video['likes'] + " | Dislikes: "+ video['dislikes'] + " | Tags: "+ video['tags'])
+        
     else:
         sys.exit(0)
 sys.exit(0)

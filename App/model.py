@@ -237,7 +237,7 @@ def Req2 (catalog, country):
     Se retorna la pelicula con el contador 
     """
 
-    return [lt.getElement(OrdenarPorNombre, max_index), max_contador]
+    return lt.getElement(OrdenarPorNombre, max_index), max_contador
 
 def Req4(catalog, country, numeroDeTop, tag):
 
@@ -264,16 +264,16 @@ def Req4(catalog, country, numeroDeTop, tag):
     listaDeVideos= lt.newList("ARRAY_LIST")
     
 
-    while i <= numeroDeTop:
-        if tag == lt.getElement(OrdenarPorNombre, i)['tag']:
-            listaDeVideos.addLast(lt.getElement((OrdenarPorNombre, i)))
+    while i <= int(numeroDeTop):
+        if tag == lt.getElement(OrdenarPorTag, i)['tags']:
+            listaDeVideos.addLast(lt.getElement((OrdenarPorTag, i)))
         else:
             index = i
         i += 1
     
  
 
-    return [listaDeVideos]
+    return listaDeVideos
 
     
 
@@ -309,24 +309,6 @@ def compareName(video1,video2):
 def compareDays (video1,video2):
     return (float(video1['days']) > float(video2['days']))
 # Funciones de ordenamiento
-
-def sortVideos(catalog, size,tsort):
-    sub_list = lt.subList(catalog['videos'], 0, size)
-    sub_list = sub_list.copy()
-    start_time = time.process_time()
-    if tsort==1:
-        sorted_list = ss.sort(sub_list, compareViews)
-    elif tsort==2:
-        sorted_list = ins.sort(sub_list, compareViews)
-    elif tsort==3:
-        sorted_list = sels.sort(sub_list, compareViews)
-    elif tsort==4:
-        sorted_list = qs.sort(sub_list, compareViews)
-    elif tsort==5:
-        sorted_list = ms.sort(sub_list, compareViews)
-    stop_time = time.process_time()
-    elapsed_time_mseg = (stop_time - start_time)*1000
-    return elapsed_time_mseg, sorted_list
 
 def sortVideos(catalog):
     sub_list = catalog.copy()
