@@ -222,9 +222,6 @@ def Req4(catalog,country, tag):
         video=lt.getElement(videosCountry['videos'],i)
         if tag in video['tags']:
             lt.addLast(lis,video)
-
-
-
     a=lit.newIterator(lis)
     l=lt.newList("ARRAY_LIST",compareName)
     x=lt.newList("ARRAY_LIST")
@@ -242,8 +239,7 @@ def Req4(catalog,country, tag):
             dic['tags']=e['tags']
             lt.addLast(x,dic)
             lt.addLast(l,e['title'])
-        else:
-            dic=lt.getElement(x,r)
+    sort=sortLikes(x)
     #print(lt.getElement(dic_sort,1))
     return x
 
@@ -280,6 +276,8 @@ def compareName(video1,video2):
         return -1
 def compareDays (video1,video2):
     return (float(video1['days']) > float(video2['days']))
+def compareLikes (video1,video2):
+    return (float(video1['likes']) > float(video2['likes']))
 # Funciones de ordenamiento
 
 def sortVideos(catalog):
@@ -291,6 +289,12 @@ def sortVideos(catalog):
 def sortDays(catalog):
     sub_list = catalog.copy()
     sorted_list = ms.sort(sub_list, compareDays)
+    #stop_time = time.process_time()
+    #elapsed_time_mseg = (stop_time - start_time)*1000
+    return sorted_list
+def sortLikes(catalog):
+    sub_list = catalog.copy()
+    sorted_list = ms.sort(sub_list, compareLikes)
     #stop_time = time.process_time()
     #elapsed_time_mseg = (stop_time - start_time)*1000
     return sorted_list
