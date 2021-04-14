@@ -51,6 +51,7 @@ def newCatalog(ltype):
     generos y libros. Retorna el catalogo inicializado.
     """
     catalog = {'videos': None,
+                'id': None, 
                 'countries':None,
                'categories': None}
     if ltype==2: 

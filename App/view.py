@@ -56,8 +56,8 @@ def loadData(catalog):
     """
     Carga los libros en la estructura de datos
     """
-    controller.loadData(catalog)
     
+    return controller.loadData(catalog)
 
 def printinga(ordlist,total): 
     for i in range(0,total):
@@ -90,8 +90,10 @@ while True:
         listype=int(input(("Seleccione el tipo de lista para cargar los datos: \n 1- ARRAY_LIST \n 2-LINKED_LIST \n")))
         print("Cargando información de los archivos ....")
         catalog = initCatalog(listype)
-        loadData(catalog)
-       
+        #loadData(catalog)
+        answer= loadData(catalog)
+        print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
+        "Memoria [kB]: ", f"{answer[1]:.3f}")
         print(' El primer video cargado es:')
         printinga(catalog['videos'],1)
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
@@ -102,24 +104,40 @@ while True:
         category=" " + (str(input("Ingrese la categoria de eleccion:")))
         number=int(input("Ingrese la cantidad de videos que quiere ver:"))
         result=controller.getVideosbyCat(catalog,country,category)
-        printing(result,number,1)
+        printing(result[0],number,1)
+        data=result[1]
+        print("Tiempo [ms]: ", f"{data[0]:.3f}", "  ||  ",
+        "Memoria [kB]: ", f"{data[1]:.3f}")
     elif int(inputs[0]) == 3:
         country = input ("Ingrese el país para el cual desea realizar la consulta: ")
         answer = controller.Req2(catalog, country)
-        a= "Title: {0}\nChannel_title:{1}\nCountry:{2}\nDays: {3} ".format(answer['title'],answer['channel_title'],answer['country'],answer['days'])
+        ans=answer[0]
+        data=answer[1]
+        
+        a= "Title: {0}\nChannel_title:{1}\nCountry:{2}\nDays: {3} ".format(ans['title'],ans['channel_title'],ans['country'],ans['days'])
         print(a)
+        print("Tiempo [ms]: ", f"{data[0]:.3f}", "  ||  ",
+        "Memoria [kB]: ", f"{data[1]:.3f}")
     elif int(inputs[0]) == 4:
-        category=" " + (str(input("Ingrese la categoria de eleccion:")))
         answer= controller.getTendencyTime(catalog,category)
-        a="Title: {0}\nChannel_title:{1}\nCategory_id:{2}\nDays: {3} ".format(answer['title'],answer['channel_title'],answer['category_id'],answer['days'])
+        ans=answer[0]
+        data=answer[1]
+        a="Title: {0}\nChannel_title:{1}\nCategory_id:{2}\nDays: {3} ".format(ans['title'],ans['channel_title'],ans['category_id'],ans['days'])
         print(a)
+        print("Tiempo [ms]: ", f"{data[0]:.3f}", "  ||  ",
+        "Memoria [kB]: ", f"{data[1]:.3f}")
         
     elif int(inputs[0])==5:
         country = input ("Ingrese el país para el cual desea realizar la consulta: ")
         tag=" " + (str(input("Ingrese el tag:")))
         size =int( input("Indique tamaño de la lista: "))
+        
         answer= controller.Req4(catalog,country,tag)
-        printing(answer, size,2)
+        ans=answer[0]
+        data=answer[1]
+        printing(ans, size,2)
+        print("Tiempo [ms]: ", f"{data[0]:.3f}", "  ||  ",
+        "Memoria [kB]: ", f"{data[1]:.3f}")
         
     else:
         sys.exit(0)
